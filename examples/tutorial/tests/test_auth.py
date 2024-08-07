@@ -26,7 +26,7 @@ def test_register(client, app):
     (
         ("", "", "", "Usuario o contraseña incorrectos."),
         ("a", "", "a", "Usuario o contraseña incorrectos."),
-        ("test", "test", "test", "ya esta registrado."),
+        ("test", "test", "test", "test", "ya esta registrado."),
     ),
 )
 def test_register_validate_input(client, username, password,email, message):
