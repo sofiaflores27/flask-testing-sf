@@ -52,8 +52,8 @@ def register():
     """
     if request.method == "POST":
         username = request.form["username"]
-        email = request.form["email"]
         password = request.form["password"]
+        email = request.form["email"]
         db = get_db()
         error = None
 
@@ -66,6 +66,7 @@ def register():
         elif not email:
             error = "Email requerida."
 
+
         if error is None:
             try:
                 db.execute(
@@ -73,15 +74,19 @@ def register():
                     (username, generate_password_hash(password), email),
                 )
                 db.commit()
+
             except db.IntegrityError as e:
                 mensaje = e.args[0]
                 print(mensaje)
-            if "user, username" in mensaje:
-                error = f"Usuario {username} ya esta registrado."
-            elif "user, email" in mensaje:
-                error = f"mail {email} ya esta registrado."
+                if "user.username" in mensaje:
+                    error = f"Usuario {username} ya esta registrado."
+                elif "user.email" in mensaje:
+                    error = f"Email {email} ya esta registrado."
+                else:
+                    error = "error desconocido."
             else:
-                error = "error desconocido."
+                # Success, go to the login page.
+                return redirect(url_for("auth.login"))
 
         flash(error)
 

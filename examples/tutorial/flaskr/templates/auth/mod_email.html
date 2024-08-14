@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Edit "{{ post['title'] }}"{% endblock %}</h1>
+{% endblock %} {% block content %}
+
+<label for="Nuevo_Email">Cambio de Email</label>
+<input
+  name="nuevo_email"
+  id="nuevo_email"
+  placeholder="{{ request.form['email'] or g.user['email'] }} (mail actual)"
+  required
+/>
+{% endblock %}

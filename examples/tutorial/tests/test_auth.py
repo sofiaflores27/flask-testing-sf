@@ -10,7 +10,8 @@ def test_register(client, app):
     assert client.get("/auth/register").status_code == 200
 
     # test that successful registration redirects to the login page
-    response = client.post("/auth/register", data={"username": "a", "password": "a", "email": "b@gmail"})
+    response = client.post("/auth/register", data={"username": "a", "password": "a", "email": "s"})
+
     assert response.headers["Location"] == "/auth/login"
 
     # test that the user was inserted into the database
@@ -24,9 +25,10 @@ def test_register(client, app):
 @pytest.mark.parametrize(
     ("username", "password","email", "message"),
     (
-        ("", "", "", "Usuario o contraseña incorrectos."),
+        ("", "a", "a", "Usuario o contraseña incorrectos."),
         ("a", "", "a", "Usuario o contraseña incorrectos."),
-        ("test", "test", "test", "test", "ya esta registrado."),
+        ("test", "test", "afadfs@gmail", "test ya esta registrado."),
+        ("sdfgsdfg", "test", "s@gmail", "s@gmail ya esta registrado."),
     ),
 )
 def test_register_validate_input(client, username, password,email, message):
